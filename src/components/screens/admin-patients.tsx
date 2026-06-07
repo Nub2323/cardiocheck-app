@@ -126,39 +126,32 @@ export function AdminPatientsScreen() {
       />
 
       <main className="flex-1 overflow-y-auto px-4 pb-24 pt-4">
-        {/* Title + Actions */}
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-extrabold text-[#0F172A]">Pacientes Registrados</h2>
-            <p className="text-[12px] text-[#475569]">
-              {patients.length} paciente{patients.length !== 1 ? 's' : ''} en el sistema
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => void fetchPatients()}
-              className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition-all active:scale-95"
-              disabled={loading}
-            >
-              <MaterialIcon
-                name="refresh"
-                size={18}
-                className={loading ? 'animate-spin text-[#94A3B8]' : 'text-[#475569]'}
-              />
-            </button>
-            <button
-              onClick={() => {
-                setShowAddForm(!showAddForm)
-                setAddError(null)
-                setAddSuccess(null)
-              }}
-              className="flex h-9 w-9 items-center justify-center rounded-xl transition-all active:scale-95"
-              style={{ backgroundColor: '#00288e' }}
-            >
-              <MaterialIcon name="person_add" size={18} className="text-white" />
-            </button>
-          </div>
+        {/* Title */}
+        <div className="mb-4">
+          <h2 className="text-lg font-extrabold text-[#0F172A]">Pacientes Registrados</h2>
+          <p className="text-[12px] text-[#475569]">
+            {patients.length} paciente{patients.length !== 1 ? 's' : ''} en el sistema
+          </p>
         </div>
+
+        {/* Add Patient Button */}
+        {!showAddForm && (
+          <button
+            onClick={() => {
+              setShowAddForm(true)
+              setAddError(null)
+              setAddSuccess(null)
+            }}
+            className="mb-4 flex w-full items-center justify-center gap-2.5 rounded-2xl px-6 py-3.5 text-sm font-bold text-white transition-all active:scale-[0.97]"
+            style={{
+              backgroundColor: '#00288e',
+              minHeight: 50,
+            }}
+          >
+            <MaterialIcon name="person_add" size={22} className="text-white" />
+            Agregar Paciente
+          </button>
+        )}
 
         {/* Success Message */}
         {addSuccess && (
@@ -194,37 +187,38 @@ export function AdminPatientsScreen() {
               }}
             >
               <div className="flex items-center gap-2">
-                <MaterialIcon name="person_add" size={18} className="text-[#00288e]" />
-                <span className="text-[13px] font-bold text-[#00288e]">Registrar Nuevo Paciente</span>
+                <MaterialIcon name="person_add" size={20} className="text-[#00288e]" />
+                <span className="text-[14px] font-bold text-[#00288e]">Nuevo Paciente</span>
               </div>
               <button
                 onClick={() => {
                   setShowAddForm(false)
                   setAddError(null)
                 }}
-                className="text-[11px] font-semibold text-[#94A3B8]"
+                className="flex items-center gap-1 rounded-lg border border-[#BFDBFE] bg-white px-3 py-1.5 text-[11px] font-bold text-[#00288e] transition-all active:scale-95"
               >
-                Cerrar
+                <MaterialIcon name="close" size={14} />
+                Cancelar
               </button>
             </div>
             <div className="p-4 space-y-3">
               {/* Name */}
               <div>
-                <label className="mb-1 block text-[10px] font-bold tracking-wide text-[#475569]">
-                  NOMBRE Y APELLIDO
+                <label className="mb-1.5 block text-[11px] font-bold tracking-wide text-[#475569]">
+                  Nombre y Apellido
                 </label>
                 <input
                   type="text"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="Ej: María García"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5 text-[13px] text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#00288e] focus:outline-none focus:ring-2 focus:ring-[#00288e]/20"
-                  style={{ minHeight: 42 }}
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#00288e] focus:outline-none focus:ring-2 focus:ring-[#00288e]/20"
+                  style={{ minHeight: 48 }}
                 />
               </div>
               {/* DNI */}
               <div>
-                <label className="mb-1 block text-[10px] font-bold tracking-wide text-[#475569]">
+                <label className="mb-1.5 block text-[11px] font-bold tracking-wide text-[#475569]">
                   DNI
                 </label>
                 <input
@@ -233,8 +227,8 @@ export function AdminPatientsScreen() {
                   value={newDni}
                   onChange={(e) => setNewDni(e.target.value.replace(/\D/g, ''))}
                   placeholder="Ej: 28456789"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5 text-[13px] text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#00288e] focus:outline-none focus:ring-2 focus:ring-[#00288e]/20"
-                  style={{ minHeight: 42 }}
+                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#00288e] focus:outline-none focus:ring-2 focus:ring-[#00288e]/20"
+                  style={{ minHeight: 48 }}
                   maxLength={8}
                 />
               </div>
@@ -245,26 +239,31 @@ export function AdminPatientsScreen() {
                   onChange={(date) => setNewBirthDate(date)}
                   placeholder="Seleccionar fecha de nacimiento"
                   maxDate={new Date()}
-                  label="FECHA DE NACIMIENTO (requerida para verificación)"
+                  label="Fecha de Nacimiento"
                 />
               </div>
               {/* Error */}
               {addError && (
-                <p className="text-[11px] font-semibold text-[#DC2626]">{addError}</p>
+                <div
+                  className="rounded-xl border-2 p-3"
+                  style={{ backgroundColor: '#FEF2F2', borderColor: '#FECACA' }}
+                >
+                  <p className="text-[11px] font-semibold text-[#DC2626]">{addError}</p>
+                </div>
               )}
               {/* Submit */}
               <button
                 onClick={() => void handleAddPatient()}
                 disabled={adding || !newName.trim() || !newDni.trim()}
-                className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[12px] font-bold text-white transition-all active:scale-[0.97] disabled:opacity-40"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3.5 text-[14px] font-bold text-white transition-all active:scale-[0.97] disabled:opacity-40"
                 style={{
                   backgroundColor: '#00288e',
-                  minHeight: 42,
+                  minHeight: 50,
                 }}
               >
                 {adding ? (
                   <>
-                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
@@ -272,7 +271,7 @@ export function AdminPatientsScreen() {
                   </>
                 ) : (
                   <>
-                    <MaterialIcon name="check" size={16} />
+                    <MaterialIcon name="check_circle" size={20} />
                     Registrar Paciente
                   </>
                 )}
@@ -320,7 +319,7 @@ export function AdminPatientsScreen() {
             <MaterialIcon name="groups" size={48} className="mb-3 text-[#94A3B8]" />
             <p className="text-sm font-bold text-[#0F172A]">Sin pacientes registrados</p>
             <p className="text-[12px] text-[#475569]">
-              Pulse el botón + para registrar el primer paciente
+              Pulse el botón "Agregar Paciente" para registrar el primero
             </p>
           </div>
         ) : (
