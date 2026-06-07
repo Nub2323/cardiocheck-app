@@ -108,7 +108,7 @@ export function PinAccessScreen() {
       <AppHeader
         icon="monitor_heart"
         title="Unidad de Insuficiencia Cardíaca"
-        subtitle="Hospital Universitario"
+        subtitle="CardioCheck"
       />
 
       <main className="flex flex-1 flex-col items-center justify-center px-6 pb-8">

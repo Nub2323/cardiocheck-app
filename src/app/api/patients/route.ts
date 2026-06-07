@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     if (!patient) {
       return NextResponse.json(
-        { error: 'No se encontró un paciente registrado con ese DNI. Si es paciente del hospital, solicite al equipo médico que lo registre en el sistema.' },
+        { error: 'No se encontró un paciente registrado con ese DNI. Si es paciente del sistema, solicite al equipo médico que lo registre.' },
         { status: 404 }
       )
     }

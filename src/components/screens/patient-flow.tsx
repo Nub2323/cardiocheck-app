@@ -44,7 +44,7 @@ export function PatientFlowScreen() {
         }}
       >
         <PulseHeartSVG size={36} />
-        <p className="text-sm font-extrabold tracking-wide">HOSPITAL ÁLVAREZ</p>
+        <p className="text-sm font-extrabold tracking-wide">CARDIOCHECK</p>
         <p className="text-[11px] text-white/70">Unidad de Cuidados Cardiológicos</p>
       </header>
 
@@ -68,9 +68,9 @@ export function PatientFlowScreen() {
           }}
         >
           <div className="flex flex-col items-center justify-center p-5 text-center text-white">
-            <MaterialIcon name="local_hospital" size={32} className="mb-1 text-white/90" />
-            <p className="text-[12px] font-bold">Hospital Dr. Tomás Álvarez</p>
-            <p className="text-[10px] text-white/70">Buenos Aires, Argentina</p>
+            <MaterialIcon name="monitor_heart" size={32} className="mb-1 text-white/90" />
+            <p className="text-[12px] font-bold">CardioCheck</p>
+            <p className="text-[10px] text-white/70">Seguimiento Cardiológico</p>
           </div>
         </div>
 
@@ -200,7 +200,7 @@ export function CheckinScreen() {
       <AppHeader
         icon="monitor_heart"
         title="Unidad de Cuidados Cardiológicos"
-        subtitle="Hospital Dr. T. Álvarez"
+        subtitle="CardioCheck"
       />
 
       <main className="flex-1 overflow-y-auto px-4 pb-8 pt-4">

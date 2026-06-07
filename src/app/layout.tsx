@@ -10,8 +10,8 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Hospital Álvarez - Seguimiento Cardiológico",
-  description: "Sistema de monitoreo remoto post-alta para pacientes con insuficiencia cardíaca del Hospital Dr. Tomás Álvarez",
+  title: "CardioCheck - Seguimiento Cardiológico",
+  description: "Sistema de monitoreo remoto post-alta para pacientes con insuficiencia cardíaca - CardioCheck",
   icons: {
     icon: "/logo.svg",
   },

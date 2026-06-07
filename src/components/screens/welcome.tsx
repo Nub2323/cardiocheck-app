@@ -14,7 +14,7 @@ export function WelcomeScreen() {
     <div className="flex min-h-screen flex-col">
       <AppHeader
         icon="monitor_heart"
-        title="Hosp. Dr. T. Álvarez"
+        title="CardioCheck"
         subtitle="Seguimiento Remoto Cardiológico"
       />
 
@@ -35,13 +35,13 @@ export function WelcomeScreen() {
             className="mb-3 inline-block rounded-full px-3 py-1 text-[11px] font-bold"
             style={{ backgroundColor: '#DBEAFE', color: '#1E3A8A' }}
           >
-            Centro de Excelencia Cardiovascular
+Seguimiento Cardiológico Remoto
           </span>
           <h1
             className="mb-2 text-center text-xl font-extrabold leading-tight"
             style={{ color: '#00288e' }}
           >
-            Unidad de Cuidados Cardiológicos
+            Monitoreo Post-Alta Cardíaco
           </h1>
           <p className="mb-5 text-center text-[13px] leading-relaxed text-[#475569]">
             Monitoreo remoto post-alta para pacientes con insuficiencia cardíaca.
@@ -71,9 +71,9 @@ export function WelcomeScreen() {
           }}
         >
           <div className="flex flex-col items-center justify-center p-6 text-center text-white">
-            <MaterialIcon name="local_hospital" size={36} className="mb-2 text-white/90" />
-            <p className="text-sm font-bold">Hospital Dr. Tomás Álvarez</p>
-            <p className="text-[11px] text-white/70">Buenos Aires, Argentina</p>
+            <MaterialIcon name="monitor_heart" size={36} className="mb-2 text-white/90" />
+            <p className="text-sm font-bold">CardioCheck</p>
+            <p className="text-[11px] text-white/70">Seguimiento Cardiológico Remoto</p>
           </div>
         </div>
 
@@ -158,8 +158,7 @@ export function WelcomeScreen() {
         {/* Footer Disclaimer */}
         <div className="mt-2 rounded-2xl border border-[#E2E8F0] bg-white/60 p-4">
           <p className="text-center text-[10px] leading-relaxed text-[#94A3B8]">
-            ⚕️ Este sistema es una herramienta de apoyo y NO reemplaza la consulta médica profesional.
-            Ante cualquier emergencia, llame al 107 o concurra a la guardia más cercana.
+            ⚕️ Esta aplicación es una herramienta de apoyo y NO reemplaza la consulta médica profesional. No es un servicio oficial de ningún hospital. Ante cualquier emergencia, llame al 107 o concurra a la guardia más cercana.
           </p>
         </div>
       </main>

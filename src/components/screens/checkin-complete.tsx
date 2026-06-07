@@ -19,7 +19,7 @@ export function CheckinCompleteScreen() {
       <AppHeader
         icon="monitor_heart"
         title="Unidad de Cuidados Cardiológicos"
-        subtitle="Hospital Dr. T. Álvarez"
+        subtitle="CardioCheck"
       />
 
       <main className="flex flex-1 flex-col items-center justify-center px-6 pb-8">

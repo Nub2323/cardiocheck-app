@@ -6,6 +6,7 @@ import { AppHeader } from '@/components/app-header'
 import { BottomNav } from '@/components/bottom-nav'
 import { MaterialIcon } from '@/components/icons'
 import { TipCard } from '@/components/tip-card'
+import { DatePicker } from '@/components/ui/date-picker'
 
 export function PatientDataScreen() {
   const { patientDni, setPatientDni, setPatientName, setPatientId, setScreen } = useAppState()
@@ -92,7 +93,7 @@ export function PatientDataScreen() {
       <AppHeader
         icon="monitor_heart"
         title="Unidad de Cuidados Cardiológicos"
-        subtitle="Hospital Dr. T. Álvarez"
+        subtitle="CardioCheck"
       />
 
       <main className="flex-1 overflow-y-auto px-4 pb-24 pt-5">
@@ -178,28 +179,18 @@ export function PatientDataScreen() {
 
           {/* Birth Date Field */}
           <div>
-            <label
-              className="mb-2 block text-[11px] font-bold tracking-wide text-[#475569]"
-              htmlFor="patient-birthdate"
-            >
-              FECHA DE NACIMIENTO
-            </label>
-            <input
-              id="patient-birthdate"
-              type="date"
+            <DatePicker
               value={birthDate}
-              onChange={(e) => {
-                setBirthDate(e.target.value)
-                if (e.target.value) {
+              onChange={(date) => {
+                setBirthDate(date)
+                if (date) {
                   setBirthDateError(null)
                 }
               }}
-              className="w-full rounded-xl border bg-[#F8FAFC] px-4 py-3 text-sm text-[#0F172A] focus:border-[#00288e] focus:outline-none focus:ring-2 focus:ring-[#00288e]/20"
-              style={{
-                minHeight: 48,
-                borderColor: birthDateError ? '#DC2626' : '#E2E8F0',
-              }}
-              max={new Date().toISOString().split('T')[0]}
+              placeholder="Seleccionar fecha de nacimiento"
+              error={!!birthDateError}
+              maxDate={new Date()}
+              label="FECHA DE NACIMIENTO"
             />
             {birthDateError && (
               <p className="mt-1.5 text-[11px] font-semibold text-[#DC2626]">
@@ -261,7 +252,7 @@ export function PatientDataScreen() {
         {/* Tip Card */}
         <TipCard
           title="Verificación de identidad"
-          text="Sus datos son verificados contra los registros del hospital para proteger su información. Solo el equipo médico puede registrar nuevos pacientes en el sistema."
+          text="Sus datos son verificados contra los registros del sistema para proteger su información. Solo el equipo médico puede registrar nuevos pacientes."
         />
 
         {/* Footer */}

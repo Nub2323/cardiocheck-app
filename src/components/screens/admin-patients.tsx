@@ -6,6 +6,7 @@ import { AppHeader } from '@/components/app-header'
 import { BottomNav } from '@/components/bottom-nav'
 import { MaterialIcon } from '@/components/icons'
 import { StatusBadge } from '@/components/status-badge'
+import { DatePicker } from '@/components/ui/date-picker'
 import type { AnswerSeverity } from '@/lib/app-state'
 
 interface PatientData {
@@ -121,7 +122,7 @@ export function AdminPatientsScreen() {
       <AppHeader
         icon="groups"
         title="Gestión de Pacientes"
-        subtitle="Hospital Dr. T. Álvarez"
+        subtitle="CardioCheck"
       />
 
       <main className="flex-1 overflow-y-auto px-4 pb-24 pt-4">
@@ -239,16 +240,12 @@ export function AdminPatientsScreen() {
               </div>
               {/* Birth Date */}
               <div>
-                <label className="mb-1 block text-[10px] font-bold tracking-wide text-[#475569]">
-                  FECHA DE NACIMIENTO (requerida para verificación)
-                </label>
-                <input
-                  type="date"
+                <DatePicker
                   value={newBirthDate}
-                  onChange={(e) => setNewBirthDate(e.target.value)}
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5 text-[13px] text-[#0F172A] focus:border-[#00288e] focus:outline-none focus:ring-2 focus:ring-[#00288e]/20"
-                  style={{ minHeight: 42 }}
-                  max={new Date().toISOString().split('T')[0]}
+                  onChange={(date) => setNewBirthDate(date)}
+                  placeholder="Seleccionar fecha de nacimiento"
+                  maxDate={new Date()}
+                  label="FECHA DE NACIMIENTO (requerida para verificación)"
                 />
               </div>
               {/* Error */}

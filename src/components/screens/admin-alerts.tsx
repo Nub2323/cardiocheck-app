@@ -107,11 +107,11 @@ export function AdminAlertsScreen() {
   }
 
   const handleWhatsApp = (patientName: string) => {
-    window.open(`https://wa.me/5491100000000?text=${encodeURIComponent(`Hola, contacto desde seguimiento cardiológico del Hospital Álvarez respecto al paciente ${patientName}.`)}`, '_blank')
+    window.open(`https://wa.me/5491100000000?text=${encodeURIComponent(`Hola, contacto desde CardioCheck respecto al paciente ${patientName}.`)}`, '_blank')
   }
 
   const handleEmail = (patientName: string) => {
-    window.open(`mailto:enfermeria@alvarez.gob.ar?subject=${encodeURIComponent(`Alerta de seguimiento - ${patientName}`)}&body=${encodeURIComponent(`Se ha generado una alerta de seguimiento para el paciente ${patientName}.`)}`, '_blank')
+    window.open(`mailto:contacto@cardiocheck.app?subject=${encodeURIComponent(`Alerta de seguimiento - ${patientName}`)}&body=${encodeURIComponent(`Se ha generado una alerta de seguimiento para el paciente ${patientName}.`)}`, '_blank')
   }
 
   const handleCall = () => {
@@ -127,7 +127,7 @@ export function AdminAlertsScreen() {
     <div className="flex min-h-screen flex-col">
       <AppHeader
         icon="favorite"
-        title="Hosp. Dr. T. Álvarez"
+        title="CardioCheck"
         subtitle="Panel de Enfermería"
       />
 

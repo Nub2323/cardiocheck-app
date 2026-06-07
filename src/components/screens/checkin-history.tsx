@@ -74,7 +74,7 @@ export function CheckinHistoryScreen() {
     <div className="flex min-h-screen flex-col">
       <AppHeader
         icon="monitor_heart"
-        title="Hosp. Dr. T. Álvarez"
+        title="CardioCheck"
         subtitle="Historial de Registros"
       />
 

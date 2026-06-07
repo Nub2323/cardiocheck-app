@@ -66,7 +66,7 @@ export function AdditionalCommentsScreen() {
     <div className="flex min-h-screen flex-col">
       <AppHeader
         icon="favorite"
-        title="Hosp. Dr. T. Álvarez"
+        title="CardioCheck"
         subtitle="Seguimiento Remoto Cardiológico"
       />
 

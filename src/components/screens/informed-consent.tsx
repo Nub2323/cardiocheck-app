@@ -24,7 +24,7 @@ export function InformedConsentScreen() {
       <AppHeader
         icon="monitor_heart"
         title="Unidad de Insuficiencia Cardíaca"
-        subtitle="Hospital Dr. T. Álvarez"
+        subtitle="CardioCheck"
       />
 
       <main className="flex-1 overflow-y-auto px-4 pb-8 pt-5">
@@ -62,8 +62,8 @@ export function InformedConsentScreen() {
           </div>
 
           <p className="mb-4 text-[12px] leading-relaxed text-[#475569]">
-            Por la presente, autorizo al equipo de la Unidad de Insuficiencia Cardíaca del
-            Hospital Dr. Tomás Álvarez a realizar el seguimiento remoto de mi condición
+            Por la presente, autorizo al equipo de seguimiento cardiológico de
+            CardioCheck a realizar el seguimiento remoto de mi condición
             cardiológica post-alta. Este programa incluye el registro diario de mis síntomas,
             peso y signos vitales a través de esta aplicación.
           </p>
