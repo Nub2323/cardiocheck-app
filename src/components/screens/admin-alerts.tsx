@@ -64,7 +64,12 @@ function getAlertSeverityInfo(severity: string): {
 }
 
 export function AdminAlertsScreen() {
-  const { setScreen, setIsAdmin } = useAppState()
+  const { setScreen, setIsAdmin, adminPin, setAdminPin } = useAppState()
+
+  const adminHeaders = () => ({
+    'Content-Type': 'application/json',
+    'x-admin-pin': adminPin,
+  })
   const [alerts, setAlerts] = useState<AlertData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -74,7 +79,13 @@ export function AdminAlertsScreen() {
     setLoading(true)
     setError(null)
     try {
-      const res = await fetch('/api/alerts')
+      const res = await fetch('/api/alerts', { headers: adminHeaders() })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (!res.ok) {
         setError('Error al cargar alertas')
         return
@@ -109,9 +120,15 @@ export function AdminAlertsScreen() {
     try {
       const res = await fetch('/api/alerts', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({ alertId, status: 'dismissed' }),
       })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (res.ok) {
         setAlerts((prev) => prev.filter((a) => a.id !== alertId))
       }
@@ -138,6 +155,7 @@ export function AdminAlertsScreen() {
 
   const handleLogout = () => {
     setIsAdmin(false)
+    setAdminPin('')
     setScreen('welcome')
   }
 

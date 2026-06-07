@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { verifyAdminPin, unauthorizedResponse } from '@/lib/auth'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const { data: alerts, error } = await supabaseAdmin
       .from('alerts')
@@ -60,6 +63,8 @@ export async function GET() {
 }
 
 export async function PATCH(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { alertId, status } = body as { alertId: string; status: string }

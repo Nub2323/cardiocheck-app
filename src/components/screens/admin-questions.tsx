@@ -44,7 +44,12 @@ const CATEGORY_OPTIONS = [
 ]
 
 export function AdminQuestionsScreen() {
-  const { setScreen } = useAppState()
+  const { setScreen, setIsAdmin, adminPin, setAdminPin } = useAppState()
+
+  const adminHeaders = () => ({
+    'Content-Type': 'application/json',
+    'x-admin-pin': adminPin,
+  })
   const [questions, setQuestions] = useState<QuestionData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -72,7 +77,13 @@ export function AdminQuestionsScreen() {
     try {
       // First ensure questions are seeded
       await fetch('/api/questions', { method: 'POST' })
-      const res = await fetch('/api/admin/questions')
+      const res = await fetch('/api/admin/questions', { headers: adminHeaders() })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (!res.ok) {
         setError('Error al cargar preguntas')
         return
@@ -120,9 +131,15 @@ export function AdminQuestionsScreen() {
     try {
       const res = await fetch('/api/admin/questions', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({ id: q.id, isActive: !q.isActive }),
       })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (res.ok) {
         setQuestions((prev) =>
           prev.map((p) => (p.id === q.id ? { ...p, isActive: !q.isActive } : p))
@@ -137,9 +154,15 @@ export function AdminQuestionsScreen() {
     try {
       const res = await fetch('/api/admin/questions', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({ id: q.id, isCritical: !q.isCritical }),
       })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (res.ok) {
         setQuestions((prev) =>
           prev.map((p) => (p.id === q.id ? { ...p, isCritical: !q.isCritical } : p))
@@ -157,9 +180,15 @@ export function AdminQuestionsScreen() {
     try {
       const res = await fetch('/api/admin/questions', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({ id }),
       })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (res.ok) {
         setQuestions((prev) => prev.filter((q) => q.id !== id))
       }
@@ -188,7 +217,7 @@ export function AdminQuestionsScreen() {
         // Update
         const res = await fetch('/api/admin/questions', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: adminHeaders(),
           body: JSON.stringify({
             id: editingId,
             emoji: formEmoji,
@@ -198,6 +227,12 @@ export function AdminQuestionsScreen() {
             options: validOptions,
           }),
         })
+        if (res.status === 401) {
+          setIsAdmin(false)
+          setAdminPin('')
+          setScreen('pin')
+          return
+        }
         if (!res.ok) {
           const data = await res.json()
           setFormError(data.error || 'Error al actualizar')
@@ -208,7 +243,7 @@ export function AdminQuestionsScreen() {
         // Create
         const res = await fetch('/api/admin/questions', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: adminHeaders(),
           body: JSON.stringify({
             emoji: formEmoji,
             question: formQuestion.trim(),
@@ -217,6 +252,12 @@ export function AdminQuestionsScreen() {
             options: validOptions,
           }),
         })
+        if (res.status === 401) {
+          setIsAdmin(false)
+          setAdminPin('')
+          setScreen('pin')
+          return
+        }
         if (!res.ok) {
           const data = await res.json()
           setFormError(data.error || 'Error al crear')

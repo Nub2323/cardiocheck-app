@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { verifyAdminPin, unauthorizedResponse } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,8 +28,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - list all PINs (for admin management)
-export async function GET() {
+// GET - list all PINs (admin only, requires current PIN)
+export async function GET(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const { data: pins, error } = await supabaseAdmin
       .from('admin_pins')
@@ -43,8 +46,10 @@ export async function GET() {
   }
 }
 
-// PUT - update PIN
+// PUT - update PIN (requires current PIN)
 export async function PUT(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { id, newPin, label } = body as { id: string; newPin: string; label?: string }

@@ -72,6 +72,7 @@ interface AppState {
   answerQuestionIds: Record<number, string> // track which question each answer belongs to
   additionalComment: string
   isAdmin: boolean
+  adminPin: string // store PIN for authenticated admin API calls
   consentAccepted: boolean
   checkinQuestions: CheckinQuestion[] // dynamic questions loaded from API
   needsGuardia: boolean // true if critical question had non-green answer
@@ -84,6 +85,7 @@ interface AppState {
   setAnswer: (questionIndex: number, answer: string, severity: AnswerSeverity) => void
   setAdditionalComment: (comment: string) => void
   setIsAdmin: (admin: boolean) => void
+  setAdminPin: (pin: string) => void
   setConsentAccepted: (accepted: boolean) => void
   setCheckinQuestions: (questions: CheckinQuestion[]) => void
   setNeedsGuardia: (needs: boolean) => void
@@ -101,6 +103,7 @@ export const useAppState = create<AppState>((set) => ({
   answerQuestionIds: {},
   additionalComment: '',
   isAdmin: false,
+  adminPin: '',
   consentAccepted: false,
   checkinQuestions: [],
   needsGuardia: false,
@@ -127,6 +130,7 @@ export const useAppState = create<AppState>((set) => ({
     }),
   setAdditionalComment: (comment) => set({ additionalComment: comment }),
   setIsAdmin: (admin) => set({ isAdmin: admin }),
+  setAdminPin: (pin) => set({ adminPin: pin }),
   setConsentAccepted: (accepted) => set({ consentAccepted: accepted }),
   setCheckinQuestions: (questions) => set({ checkinQuestions: questions }),
   setNeedsGuardia: (needs) => set({ needsGuardia: needs }),

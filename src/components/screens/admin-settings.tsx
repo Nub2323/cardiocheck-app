@@ -77,7 +77,12 @@ function getPinStrength(pin: string): { score: number; label: string; color: str
 }
 
 export function AdminSettingsScreen() {
-  const { setScreen, setIsAdmin } = useAppState()
+  const { setScreen, setIsAdmin, adminPin, setAdminPin } = useAppState()
+
+  const adminHeaders = () => ({
+    'Content-Type': 'application/json',
+    'x-admin-pin': adminPin,
+  })
   const [settings, setSettings] = useState<SettingData[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState<string | null>(null)
@@ -102,7 +107,13 @@ export function AdminSettingsScreen() {
     setLoading(true)
     setErrorMsg(null)
     try {
-      const res = await fetch('/api/admin/settings')
+      const res = await fetch('/api/admin/settings', { headers: adminHeaders() })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (!res.ok) {
         setErrorMsg('Error al cargar configuración')
         return
@@ -134,9 +145,15 @@ export function AdminSettingsScreen() {
     try {
       const res = await fetch('/api/admin/settings', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({ key, value }),
       })
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       if (!res.ok) {
         setErrorMsg('Error al guardar')
         return
@@ -191,7 +208,15 @@ export function AdminSettingsScreen() {
       }
 
       // Get the PIN record ID
-      const listRes = await fetch('/api/admin-pin')
+      const listRes = await fetch('/api/admin-pin', { headers: adminHeaders() })
+      if (listRes.status === 401) {
+        setPinError('PIN inválido. Cerrando sesión...')
+        setPinSaving(false)
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
       const listData = await listRes.json()
       const pinRecord = listData.pins?.[0]
 
@@ -204,9 +229,18 @@ export function AdminSettingsScreen() {
       // Update PIN
       const updateRes = await fetch('/api/admin-pin', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({ id: pinRecord.id, newPin, label: 'default' }),
       })
+
+      if (updateRes.status === 401) {
+        setPinError('PIN inválido. Cerrando sesión...')
+        setPinSaving(false)
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
 
       if (!updateRes.ok) {
         setPinError('Error al actualizar el PIN')
@@ -243,6 +277,7 @@ export function AdminSettingsScreen() {
 
   const handleLogout = () => {
     setIsAdmin(false)
+    setAdminPin('')
     setScreen('welcome')
   }
 

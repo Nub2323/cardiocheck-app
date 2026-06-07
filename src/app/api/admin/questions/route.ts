@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { verifyAdminPin, unauthorizedResponse } from '@/lib/auth'
 
 /**
  * GET /api/admin/questions — List ALL questions (including inactive) for admin
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const { data: questions, error } = await supabaseAdmin
       .from('questions')
@@ -40,6 +43,8 @@ export async function GET() {
  * POST /api/admin/questions — Create a new question
  */
 export async function POST(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { emoji, question, options, isCritical, category, order } = body
@@ -115,6 +120,8 @@ export async function POST(request: NextRequest) {
  * PUT /api/admin/questions — Update a question
  */
 export async function PUT(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { id, ...updates } = body
@@ -181,6 +188,8 @@ export async function PUT(request: NextRequest) {
  * DELETE /api/admin/questions — Delete a question
  */
 export async function DELETE(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { id } = body

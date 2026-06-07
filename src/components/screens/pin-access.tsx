@@ -9,7 +9,7 @@ const MAX_ATTEMPTS = 3
 const COOLDOWN_MS = 30000 // 30 seconds
 
 export function PinAccessScreen() {
-  const { setScreen, setIsAdmin } = useAppState()
+  const { setScreen, setIsAdmin, setAdminPin } = useAppState()
   const [pin, setPin] = useState<string[]>(['', '', '', ''])
   const [error, setError] = useState(false)
   const [shaking, setShaking] = useState(false)
@@ -46,6 +46,7 @@ export function PinAccessScreen() {
             if (data.valid) {
               setTimeout(() => {
                 setIsAdmin(true)
+                setAdminPin(entered)
                 setScreen('admin')
               }, 300)
             } else {

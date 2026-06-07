@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { verifyAdminPin, unauthorizedResponse } from '@/lib/auth'
 
 /**
  * POST /api/admin/patients — Register a new patient (admin only).
  */
 export async function POST(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { name, dni, birthDate } = body
@@ -73,6 +76,8 @@ export async function POST(request: NextRequest) {
  * DELETE /api/admin/patients — Remove a patient (admin only).
  */
 export async function DELETE(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { patientId } = body

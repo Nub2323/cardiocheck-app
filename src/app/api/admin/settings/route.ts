@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { verifyAdminPin, unauthorizedResponse } from '@/lib/auth'
 
-// GET — list all settings
-export async function GET() {
+// GET — list all settings (admin only)
+export async function GET(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const { data: settings, error } = await supabaseAdmin
       .from('app_settings')
@@ -17,8 +20,10 @@ export async function GET() {
   }
 }
 
-// PUT — update a setting
+// PUT — update a setting (admin only)
 export async function PUT(request: NextRequest) {
+  if (!await verifyAdminPin(request)) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { key, value } = body as { key: string; value: string }

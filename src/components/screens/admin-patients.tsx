@@ -23,7 +23,12 @@ interface PatientData {
 }
 
 export function AdminPatientsScreen() {
-  const { setScreen } = useAppState()
+  const { setScreen, setIsAdmin, adminPin, setAdminPin } = useAppState()
+
+  const adminHeaders = () => ({
+    'Content-Type': 'application/json',
+    'x-admin-pin': adminPin,
+  })
   const [patients, setPatients] = useState<PatientData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -80,13 +85,20 @@ export function AdminPatientsScreen() {
     try {
       const res = await fetch('/api/admin/patients', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: adminHeaders(),
         body: JSON.stringify({
           name: newName.trim(),
           dni: dniDigits,
           birthDate: newBirthDate || null,
         }),
       })
+
+      if (res.status === 401) {
+        setIsAdmin(false)
+        setAdminPin('')
+        setScreen('pin')
+        return
+      }
 
       const data = await res.json()
 
@@ -119,6 +131,8 @@ export function AdminPatientsScreen() {
   }
 
   const handleLogout = () => {
+    setIsAdmin(false)
+    setAdminPin('')
     setScreen('admin')
   }
 
