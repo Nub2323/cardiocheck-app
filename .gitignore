@@ -69,7 +69,10 @@ server.log
 # Caddy config
 Caddyfile
 
-# Screenshots
+# Screenshots (except public assets)
 *.png
 *.jpg
 *.jpeg
+!public/*.png
+!public/*.jpg
+!public/*.jpeg
